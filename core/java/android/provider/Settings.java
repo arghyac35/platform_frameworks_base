@@ -4715,6 +4715,12 @@ public final class Settings {
          public static final String NETWORK_TRAFFIC_FONT_SIZE = "network_traffic_font_size";
 
         /**
+         * Change volume up and down handlign based on rotation
+         * @hide
+         */
+        public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -4915,6 +4921,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD);
 	    PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_HIDEARROW);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_FONT_SIZE);
+            PRIVATE_SETTINGS.add(SWAP_VOLUME_BUTTONS);
         }
 
         /**
