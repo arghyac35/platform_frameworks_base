@@ -73,6 +73,7 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
     private boolean mColorIsStatic = false;
     private boolean indicatorUp = false;
     private boolean indicatorDown = false;
+    private boolean mShowArrow;
 
     private boolean mScreenOn = true;
 
@@ -129,7 +130,8 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
                 mTrafficVisible = true;
             }
             updateVisibility();
-            updateTrafficDrawable();
+            if (mShowArrow)
+                updateTrafficDrawable();
 
             // Post delayed message to refresh in ~1000ms
             totalRxBytes = newTotalRxBytes;
@@ -185,6 +187,9 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.NETWORK_TRAFFIC_ARROW), false,
                     this, UserHandle.USER_ALL);
         }
 
@@ -301,6 +306,9 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
         mAutoHideThreshold = Settings.System.getIntForUser(resolver,
                 Settings.System.NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD, 1,
                 UserHandle.USER_CURRENT);
+        mShowArrow = Settings.System.getIntForUser(resolver,
+                Settings.System.NETWORK_TRAFFIC_ARROW, 1,
+                UserHandle.USER_CURRENT) == 1;
     }
 
     private void clearHandlerCallbacks() {
@@ -311,7 +319,7 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
 
     private void updateTrafficDrawable() {
         int indicatorDrawable;
-        if (mIsEnabled) {
+        if (mIsEnabled && mShowArrow) {
             if (indicatorUp) {
                 indicatorDrawable = R.drawable.stat_sys_network_traffic_up_arrow;
                 Drawable d = getContext().getDrawable(indicatorDrawable);
@@ -327,7 +335,9 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
             } else {
                 setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
-	    }
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
         indicatorUp = false;
         indicatorDown = false;
     }
