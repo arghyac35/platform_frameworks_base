@@ -23,7 +23,6 @@ import android.view.ContextThemeWrapper;
 import com.android.systemui.R;
 import com.android.systemui.plugins.qs.*;
 import com.android.systemui.plugins.qs.QSTileView;
-import com.android.systemui.qs.custom.WellbeingHelper;
 import com.android.systemui.qs.external.CustomTile;
 import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
@@ -47,7 +46,6 @@ import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.NavigationBarTile;
 import com.android.systemui.qs.tiles.IntentTile;
-import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.OneHandTile;
@@ -89,11 +87,8 @@ public class QSFactoryImpl implements QSFactory {
     }
 
     private QSTileImpl createTileInternal(String tileSpec) {
-        if (!WellbeingHelper.shouldAddTile(mHost.getContext(), tileSpec)){
-            return null;
-        }
+        // Stock tiles.
         switch (tileSpec) {
-            // Stock tiles.
             case "wifi":
                 return new WifiTile(mHost);
             case "bt":
@@ -170,8 +165,6 @@ public class QSFactoryImpl implements QSFactory {
                 return new AmbientDisplayTile(mHost);
             case "volume_panel":
                 return new VolumeTile(mHost);
-            case "livedisplay":
-                return new LiveDisplayTile(mHost);
             case "reading_mode":
                 return new ReadingModeTile(mHost);
             case "font":
