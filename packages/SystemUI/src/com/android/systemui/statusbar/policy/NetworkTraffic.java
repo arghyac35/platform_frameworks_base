@@ -37,7 +37,9 @@ import com.android.internal.util.aospextended.AEXUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.StatusIconDisplayable;
-import com.android.systemui.statusbar.policy.DarkIconDispatcher.DarkReceiver;
+import com.android.systemui.plugins.DarkIconDispatcher;
+import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
+
 /*
 *
 * Seeing how an Integer object in java requires at least 16 Bytes, it seemed awfully wasteful
@@ -385,7 +387,7 @@ public class NetworkTraffic extends TextView implements StatusIconDisplayable {
     }
 
     @Override
-    public void setVisibleState(int state) {
+    public void setVisibleState(int state, boolean animate) {
         if (state == mVisibleState) {
             return;
         }
